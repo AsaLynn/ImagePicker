@@ -132,4 +132,9 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 }
 ```
 
+打标签:
+git tag -a 1.0.7 -m '完善'
+git push origin 1.0.7
+git tag
+
 
