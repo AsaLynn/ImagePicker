@@ -7,11 +7,15 @@ Android自定义相册，完全仿微信UI，实现了拍照、图片选择（�
 * [https://github.com/easonline/AndroidImagePicker](https://github.com/easonline/AndroidImagePicker)
 * [https://github.com/jeasonlzy0216](https://github.com/jeasonlzy0216)
 
+ ## 1.0.7更新
+ ```
+1,库依赖升级转移
+ ```
+
  ## 1.0.6更新
  ```
 1,新增设置勾选的CheckBox的勾选背景选择器方法
 2,新增是否可以设置显示勾选的图标索引
-3,
  ```
 
  ## 更新
@@ -28,10 +32,7 @@ todo:支持视频选择.
 
 使用前，对于Android Studio的用户，可以选择添加:
 ```
-implementation 'com.zxn.imagepicker:zImagePicker:1.0.6'
-
-//选择照片无权限版本
-implementation 'com.zxn.imagepicker:zImagePicker:1.0.5'
+implementation 'com.zxn.github:AsaLynn:1.0.7'
 ```
 
 ## 2.功能和参数含义
@@ -39,7 +40,7 @@ implementation 'com.zxn.imagepicker:zImagePicker:1.0.5'
 ### 温馨提示:目前库中的预览界面有个原图的复选框,暂时只做了UI,还没有做压缩的逻辑
 
 |配置参数|参数含义|
-|:--:|--|
+|:--|--|
 |multiMode|图片选着模式，单选/多选|
 |selectLimit|多选限制数量，默认为9|
 |showCamera|选择照片时是否显示拍照按钮|
