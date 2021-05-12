@@ -117,7 +117,9 @@ class ImagePickerActivity : AppCompatActivity(), OnSeekBarChangeListener, Compou
                 imagePicker!!.outPutY = Integer.valueOf(et_outputy!!.text.toString())
                 ImageGridActivity.jumpToForResult(this, images, 100)
             }
+
             R.id.btn_wxDemo -> startActivity(Intent(this, WxDemoActivity::class.java))
+
         }
     }
 

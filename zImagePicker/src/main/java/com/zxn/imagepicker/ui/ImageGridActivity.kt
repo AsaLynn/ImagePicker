@@ -42,10 +42,10 @@ import kotlin.collections.ArrayList
  * 照片选择页面.
  */
 class ImageGridActivity : ImageBaseActivity(),
-        OnImagesLoadedListener,
-        OnImageItemClickListener,
-        OnImageSelectedListener,
-        View.OnClickListener {
+    OnImagesLoadedListener,
+    OnImageItemClickListener,
+    OnImageSelectedListener,
+    View.OnClickListener {
 
     private var imagePicker: ImagePicker = ImagePicker
 
@@ -94,13 +94,19 @@ class ImageGridActivity : ImageBaseActivity(),
             directPhoto = data.getBooleanExtra(EXTRAS_TAKE_PICKERS, false) // 默认不是直接打开相机
             if (directPhoto) {
                 if (!checkPermission(Manifest.permission.CAMERA)) {
-                    ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), REQUEST_PERMISSION_CAMERA)
+                    ActivityCompat.requestPermissions(
+                        this,
+                        arrayOf(Manifest.permission.CAMERA),
+                        REQUEST_PERMISSION_CAMERA
+                    )
                 } else {
                     imagePicker.takePicture(this, ImagePicker.REQUEST_CODE_TAKE)
                 }
             }
-            val images = data.getSerializableExtra(EXTRAS_IMAGES) as ArrayList<ImageItem>
-            imagePicker.selectedImages = images
+            data.getSerializableExtra(EXTRAS_IMAGES)?.let {
+                val images = it as ArrayList<ImageItem>
+                imagePicker.selectedImages = images
+            }
         }
         mRecyclerView = findViewById<View>(R.id.recycler) as RecyclerView
         findViewById<View>(R.id.btn_back).setOnClickListener(this)
@@ -128,14 +134,22 @@ class ImageGridActivity : ImageBaseActivity(),
             if (checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 ImageDataSource(this, null, this)
             } else {
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_PERMISSION_STORAGE)
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    REQUEST_PERMISSION_STORAGE
+                )
             }
         } else {
             ImageDataSource(this, null, this)
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_PERMISSION_STORAGE) {
             if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -201,7 +215,12 @@ class ImageGridActivity : ImageBaseActivity(),
         mFolderPopupWindow = FolderPopUpWindow(this, mImageFolderAdapter)
         mFolderPopupWindow!!.setOnItemClickListener(object : FolderPopUpWindow.OnItemClickListener {
 
-            override fun onItemClick(adapterView: AdapterView<*>?, view: View?, position: Int, l: Long) {
+            override fun onItemClick(
+                adapterView: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                l: Long
+            ) {
                 mImageFolderAdapter!!.selectIndex = position
                 imagePicker.currentImageFolderPosition = position
                 mFolderPopupWindow!!.dismiss()
@@ -229,7 +248,6 @@ class ImageGridActivity : ImageBaseActivity(),
     }
 
 
-
     override fun onImageItemClick(view: View?, imageItem: ImageItem?, position: Int) {
         //根据是否有相机按钮确定位置
         var position = position
@@ -252,7 +270,11 @@ class ImageGridActivity : ImageBaseActivity(),
             startActivityForResult(intent, ImagePicker.REQUEST_CODE_PREVIEW) //如果是多选，点击图片进入预览界面
         } else {
             imagePicker!!.clearSelectedImages()
-            imagePicker!!.addSelectedImageItem(position, imagePicker!!.currentImageFolderItems[position], true)
+            imagePicker!!.addSelectedImageItem(
+                position,
+                imagePicker!!.currentImageFolderItems[position],
+                true
+            )
             if (imagePicker!!.isCrop) {
                 val intent = Intent(this@ImageGridActivity, ImageCropActivity::class.java)
                 startActivityForResult(intent, ImagePicker.REQUEST_CODE_CROP) //单选需要裁剪，进入裁剪界面
@@ -268,10 +290,15 @@ class ImageGridActivity : ImageBaseActivity(),
     @SuppressLint("StringFormatMatches")
     override fun onImageSelected(position: Int, item: ImageItem?, isAdd: Boolean) {
         if (imagePicker!!.selectImageCount > 0) {
-            mBtnOk!!.text = getString(R.string.ip_select_complete, imagePicker!!.selectImageCount, imagePicker!!.selectLimit)
+            mBtnOk!!.text = getString(
+                R.string.ip_select_complete,
+                imagePicker!!.selectImageCount,
+                imagePicker!!.selectLimit
+            )
             mBtnOk!!.isEnabled = true
             mBtnPre!!.isEnabled = true
-            mBtnPre!!.text = resources.getString(R.string.ip_preview_count, imagePicker!!.selectImageCount)
+            mBtnPre!!.text =
+                resources.getString(R.string.ip_preview_count, imagePicker!!.selectImageCount)
             mBtnPre!!.setTextColor(ContextCompat.getColor(this, R.color.ip_text_primary_inverted))
             mBtnOk!!.setTextColor(ContextCompat.getColor(this, R.color.ip_text_primary_inverted))
         } else {
@@ -435,7 +462,13 @@ class ImageGridActivity : ImageBaseActivity(),
         }
         mRecyclerAdapter!!.setOnImageItemClickListener(this)
         mRecyclerView!!.layoutManager = GridLayoutManager(this, 3)
-        mRecyclerView!!.addItemDecoration(GridSpacingItemDecoration(3, Utils.dp2px(this, 2f), false))
+        mRecyclerView!!.addItemDecoration(
+            GridSpacingItemDecoration(
+                3,
+                Utils.dp2px(this, 2f),
+                false
+            )
+        )
         mRecyclerView!!.adapter = mRecyclerAdapter
         mImageFolderAdapter!!.refreshData(imageFolders)
     }
