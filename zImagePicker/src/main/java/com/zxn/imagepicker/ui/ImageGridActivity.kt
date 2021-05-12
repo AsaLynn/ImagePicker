@@ -88,10 +88,12 @@ class ImageGridActivity : ImageBaseActivity(),
         imagePicker = ImagePicker
         imagePicker.clear()
         imagePicker.addOnImageSelectedListener(this)
-        val data = intent
+
         // 新增可直接拍照
+        val data = intent
         if (data != null && data.extras != null) {
             directPhoto = data.getBooleanExtra(EXTRAS_TAKE_PICKERS, false) // 默认不是直接打开相机
+
             if (directPhoto) {
                 if (!checkPermission(Manifest.permission.CAMERA)) {
                     ActivityCompat.requestPermissions(
@@ -103,12 +105,20 @@ class ImageGridActivity : ImageBaseActivity(),
                     imagePicker.takePicture(this, ImagePicker.REQUEST_CODE_TAKE)
                 }
             }
+
             data.getSerializableExtra(EXTRAS_IMAGES)?.let {
-                val images = it as ArrayList<ImageItem>
-                imagePicker.selectedImages = images
+                val images = it as ArrayList<*>
+                imagePicker.selectedImages = ArrayList<ImageItem>().apply {
+                    images.forEach { item ->
+                        this.add(item as ImageItem)
+                    }
+                }
             }
+
         }
+
         mRecyclerView = findViewById<View>(R.id.recycler) as RecyclerView
+
         findViewById<View>(R.id.btn_back).setOnClickListener(this)
         mBtnOk = findViewById<View>(R.id.btn_ok) as Button
         mBtnOk!!.setOnClickListener(this)
@@ -126,7 +136,6 @@ class ImageGridActivity : ImageBaseActivity(),
             mBtnPre!!.visibility = View.GONE
         }
 
-//        mImageGridAdapter = new ImageGridAdapter(this, null);
         mImageFolderAdapter = ImageFolderAdapter(this, null)
         mRecyclerAdapter = ImageRecyclerAdapter(this, null)
         onImageSelected(0, null, false)
