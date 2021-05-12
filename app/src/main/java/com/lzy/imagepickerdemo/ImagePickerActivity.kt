@@ -170,7 +170,7 @@ class ImagePickerActivity : AppCompatActivity(), OnSeekBarChangeListener, Compou
             return position.toLong()
         }
 
-        override fun getView(position: Int, convertView: View, parent: ViewGroup): View {
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
             val imageView: ImageView
             val size = gridView!!.width / 3
             if (convertView == null) {
