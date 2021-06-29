@@ -14,7 +14,7 @@ import java.util.*
 class ImagePageAdapter(private val mActivity: Activity, images: ArrayList<ImageItem>) : PagerAdapter() {
     private val screenWidth: Int
     private val screenHeight: Int
-//    private val imagePicker: ImagePicker
+
     private var images = ArrayList<ImageItem>()
     var listener: PhotoViewClickListener? = null
     fun setData(images: ArrayList<ImageItem>) {
