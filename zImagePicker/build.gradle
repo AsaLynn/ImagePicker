@@ -4,7 +4,9 @@ plugins {
     id 'kotlin-android-extensions'
     id 'com.github.dcendents.android-maven'
 }
-version = "1.0.7"
+
+version = "1.0.8"
+
 group = "com.zxn.imagepicker"
 android {
     compileSdkVersion 30

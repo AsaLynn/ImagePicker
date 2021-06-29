@@ -1,7 +1,9 @@
 package com.zxn.imagepicker.adapter;
 
 import android.app.Activity;
+
 import androidx.viewpager.widget.PagerAdapter;
+
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,21 +17,12 @@ import java.util.ArrayList;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
-/**
- * ================================================
- * 作    者：jeasonlzy（廖子尧 Github地址：https://github.com/jeasonlzy0216
- * 版    本：1.0
- * 创建日期：2016/5/19
- * 描    述：
- * 修订历史：
- * ================================================
- */
 public class ImagePageAdapter extends PagerAdapter {
 
     private int screenWidth;
     private int screenHeight;
     private ImagePicker imagePicker;
-    private ArrayList<ImageItem> images = new ArrayList<>();
+    private ArrayList<ImageItem> images;
     private Activity mActivity;
     public PhotoViewClickListener listener;
 
@@ -68,7 +61,7 @@ public class ImagePageAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return images.size();
+        return images == null ? 0 : images.size();
     }
 
     @Override
