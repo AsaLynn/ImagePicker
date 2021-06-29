@@ -8,6 +8,7 @@ plugins {
 version = "1.0.8"
 
 group = "com.zxn.imagepicker"
+
 android {
     compileSdkVersion 30
 
